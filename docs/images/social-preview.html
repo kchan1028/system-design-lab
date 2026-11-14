@@ -1,0 +1,27 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+*{box-sizing:border-box;margin:0}
+body{width:1280px;height:640px;background:#f7f9f9;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:#20262d;display:grid;grid-template-columns:1fr 470px;gap:56px;padding:64px 72px 56px}
+.eyebrow{font-size:20px;font-weight:650;color:#155f54;letter-spacing:.2px}
+h1{font-size:76px;letter-spacing:-3px;line-height:1.02;margin:18px 0 26px}
+.lead{font-size:27px;line-height:1.4;color:#39434b;max-width:600px}
+.loop{display:flex;align-items:center;gap:10px;margin-top:44px;font-size:17px;font-weight:600;color:#14584e;flex-wrap:wrap}
+.loop span.node{background:#e3eeeb;border:1px solid #a0b8b1;border-radius:6px;padding:9px 12px}
+.loop span.arrow{color:#56616c;font-weight:400}
+.foot{position:absolute;left:72px;bottom:44px;font-size:17px;color:#56616c}
+aside{background:white;border:1px solid #dce2e6;border-radius:10px;padding:30px 32px;align-self:start}
+aside p{font-size:14px;font-weight:650;letter-spacing:1.2px;color:#59646e;margin-bottom:14px}
+ol{list-style:none;padding:0;counter-reset:s}
+li{counter-increment:s;position:relative;padding:12px 0 12px 46px;font-size:22px;font-weight:600;border-top:1px solid #edf0f2}
+li:first-child{border-top:0}
+li::before{content:counter(s);position:absolute;left:0;top:10px;width:30px;height:30px;border-radius:50%;background:#155f54;color:white;font-size:15px;display:grid;place-items:center}
+</style></head><body>
+<main>
+<p class="eyebrow">Engineering architecture &amp; decision-making</p>
+<h1>System Design Lab</h1>
+<p class="lead">Original architecture case studies with explicit assumptions, trust boundaries, failure handling and decision records.</p>
+<div class="loop"><span class="node">Requirements</span><span class="arrow">→</span><span class="node">Architecture</span><span class="arrow">→</span><span class="node">Decisions</span><span class="arrow">→</span><span class="node">Tradeoffs</span></div>
+<p class="foot">kchan1028.github.io/system-design-lab · Design exercises, no production benchmarks claimed</p>
+</main>
+<aside><p>SIX CASE STUDIES</p><ol>
+<li>Open Source Voice Platform</li><li>Document Processing Platform</li><li>Event-Driven Order Processing</li><li>Multi-Tenant SaaS Platform</li><li>High-Traffic API Platform</li><li>RAG Document Search</li></ol></aside>
+</body></html>
