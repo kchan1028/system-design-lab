@@ -4,13 +4,12 @@ import tenantStudy from './multi-tenant-saas.md?raw'
 import apiStudy from './high-traffic-api.md?raw'
 import ragStudy from './rag-document-search.md?raw'
 export const studies = [{ id: 'document-processing', title: 'Document Processing Platform', status: 'Design study', summary: 'Durable ingestion, asynchronous processing, and recoverable failures.', content: documentStudy }, { id: 'event-driven-orders', title: 'Event-Driven Order Processing', status: 'Design study', summary: 'Durable order intent, idempotent effects, and reconciliation across inventory, payments and fulfillment.', content: orderStudy }, { id: 'multi-tenant-saas', title: 'Multi-Tenant SaaS Platform', status: 'Design study', summary: 'Tenant isolation, current authorization, scoped background work and auditable recovery.', content: tenantStudy }, { id: 'high-traffic-api', title: 'High-Traffic API Platform', status: 'Design study', summary: 'Public cache contracts, bounded freshness, quota fairness and observable overload protection.', content: apiStudy }, { id: 'rag-document-search', title: 'RAG Document Search', status: 'Design study', summary: 'Permission-aware retrieval, inspectable citations, safe abstention and a reproducible evaluation plan.', content: ragStudy }]
-export const overview = `## Architecture is a set of decisions
-Start with the constraints. Explain the boundaries. Make the failure modes visible.
+export const siteDescription = 'Original system design case studies on document processing, event-driven orders, multi-tenant SaaS, high-traffic APIs and RAG search, with explicit tradeoffs.'
+export const overview = `## What is System Design Lab?
+System Design Lab is a set of five original, hypothetical architecture studies by KC Chan. Each one starts from a business problem, states its assumptions and proposed targets, and shows where the design can fail and what each decision costs. Nothing here describes a deployed system, and no production performance is claimed.
 
-This lab collects original, hypothetical system designs. It separates assumptions, proposed targets, and measured results. No production performance is claimed.
-
-## Reading a case study
-Each study follows the same path: requirements, architecture, contracts, data, security boundaries, failure handling, operations, and tradeoffs.
+## How is each study organized?
+Each study opens with Study at a glance: the design's answer in two sentences, then the critical path step by step with the control that protects each step, then what has not been validated. The detail follows: requirements, architecture and trust boundaries, contracts, data rules, failure handling, operations, decision records and a validation plan. Section links can be shared and reloaded.
 
 ## What is available
 Five independent design studies, each with requirements, a diagram, contracts, failure handling, operations, decision records and a validation plan:

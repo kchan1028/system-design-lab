@@ -21,9 +21,9 @@ export function ArchitectureExplorer() {
       <h3 id="component-name">{selected.name}</h3>
       <dl><dt>Responsibility</dt><dd>{selected.responsibility}</dd><dt>Security boundary: {selected.boundary}</dt><dd>{selected.security}</dd><dt>Failure and recovery</dt><dd>{selected.failure}</dd></dl>
       <h4>Outgoing dependencies</h4>
-      {selected.dependencies.length ? <ul>{selected.dependencies.map(edge => <li key={edge.id}><button type="button" onClick={() => follow(edge.id)}>Inspect {components.find(component => component.id === edge.id)!.name}</button><span> — {edge.purpose}</span></li>)}</ul> : <p>No outgoing dependency is modeled. This does not imply failure independence.</p>}
+      {selected.dependencies.length ? <ul>{selected.dependencies.map(edge => <li key={edge.id}><button type="button" onClick={() => follow(edge.id)}>Inspect {components.find(component => component.id === edge.id)!.name}</button><span>: {edge.purpose}</span></li>)}</ul> : <p>No outgoing dependency is modeled. This does not imply failure independence.</p>}
       <h4>Incoming connections</h4>
-      {incoming.length ? <ul>{incoming.map(component => <li key={component.id}><button type="button" onClick={() => follow(component.id)}>Inspect {component.name}</button><span> — {component.dependencies.find(edge => edge.id === selectedId)!.purpose}</span></li>)}</ul> : <p>No incoming connection is modeled.</p>}
+      {incoming.length ? <ul>{incoming.map(component => <li key={component.id}><button type="button" onClick={() => follow(component.id)}>Inspect {component.name}</button><span>: {component.dependencies.find(edge => edge.id === selectedId)!.purpose}</span></li>)}</ul> : <p>No incoming connection is modeled.</p>}
     </div>
   </section>
 }

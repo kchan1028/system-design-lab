@@ -4,7 +4,15 @@ Original, hypothetical architecture case studies that make requirements, decisio
 
 ## Status
 
-Milestone 1 supplies the responsive documentation shell, hash-based case-study navigation, and a lazy-loaded Mermaid renderer with readable source fallback. The architecture explorer adds keyboard-operable component inspection, directional dependencies, trust boundaries and failure recovery without interpreting Mermaid output as interactive controls. Milestone 2 adds the [Document Processing Platform study](src/document-processing.md), covering contracts, isolation, publication semantics, operations, capacity arithmetic and five ADRs. The [Event-Driven Order Processing study](src/event-driven-orders.md) adds an independent commerce saga design with outbox/inbox semantics, stock holds, payment uncertainty, compensation and reconciliation. The [Multi-Tenant SaaS Platform study](src/multi-tenant-saas.md) covers layered tenant isolation, current authorization, scoped exports and revocation-aware recovery. The [High-Traffic API Platform study](src/high-traffic-api.md) covers public cache eligibility, bounded freshness, rate limiting, overload handling and observability. The [RAG Document Search study](src/rag-document-search.md) covers permission-filtered hybrid retrieval, versioned index publication, deletion and ACL freshness, citation integrity, prompt-injection limits and an evaluation plan; no retrieval system or evaluation has been built or run. These are design exercises; this repository implements no backend for them.
+Five design studies are published, each opening with an answer-first summary of its critical path. None has a backend; they are design exercises, and no measured production result is claimed.
+
+- [Document Processing Platform](src/document-processing.md): durable ingestion, sandboxed extraction, fenced publication, capacity arithmetic and five ADRs.
+- [Event-Driven Order Processing](src/event-driven-orders.md): an orchestrated saga with outbox and inbox, stock holds, uncertain payments, compensation and reconciliation.
+- [Multi-Tenant SaaS Platform](src/multi-tenant-saas.md): layered tenant isolation, per-operation authorization, scoped exports and revocation-aware recovery.
+- [High-Traffic API Platform](src/high-traffic-api.md): public cache eligibility, a bounded freshness envelope, quotas, admission control and observability.
+- [RAG Document Search](src/rag-document-search.md): permission-filtered hybrid retrieval, versioned indexes, deletion and access freshness, citation integrity, prompt-injection limits and an evaluation plan. No retrieval system or evaluation has been built or run.
+
+Two interactive tools exist, for the Document Processing Platform only: a keyboard-operable architecture explorer and an assumption-driven tradeoff analyzer. The site shell provides hash routing, shareable section links and lazy-loaded Mermaid diagrams with a readable source fallback.
 
 ## Browse the documentation
 
