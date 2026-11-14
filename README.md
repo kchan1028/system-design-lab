@@ -6,6 +6,10 @@ Original, hypothetical architecture case studies that make requirements, decisio
 
 Milestone 1 supplies the responsive documentation shell, hash-based case-study navigation, and a lazy-loaded Mermaid renderer with readable source fallback. Milestone 2 adds the [Document Processing Platform study](src/document-processing.md), covering contracts, isolation, publication semantics, operations, capacity arithmetic and five ADRs. This repository does not implement a document-processing backend.
 
+## Browse the documentation
+
+The planned GitHub Pages address is [System Design Lab](https://kchan1028.github.io/system-design-lab/). Publication is verified separately from this source change. Use the on-page contents to jump to a topic; section URLs can be shared and reloaded.
+
 ## Run locally
 
 Use Node.js 24 and npm. No environment variables, account, or credentials are needed.
@@ -25,7 +29,7 @@ npx playwright install chromium
 npm run test:e2e
 ```
 
-`npm run preview` serves the built `dist/` directory. Relative asset paths and hash routes support static subdirectory hosting without route rewrites. Hosting is not configured automatically.
+`npm run preview` serves the built `dist/` directory. Relative asset paths and hash routes support static subdirectory hosting without route rewrites. GitHub Pages publishes the verified static build after a merge to main. The deployment job alone has Pages/OIDC write access; PR checks remain read-only. The expected public URL is https://kchan1028.github.io/system-design-lab/.
 
 ## Design and evidence
 
