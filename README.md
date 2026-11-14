@@ -2,6 +2,12 @@
 
 Original, hypothetical architecture case studies that make requirements, decisions, failure modes, security boundaries, and operational costs reviewable. No employer or customer material is used.
 
+**Read it online:** [kchan1028.github.io/system-design-lab](https://kchan1028.github.io/system-design-lab/)
+
+[![The Document Processing Platform study on the published site: a sidebar listing six case studies, and a page contents list covering requirements, trust boundaries, idempotency, failure handling, cost model and architecture decision records](docs/images/document-processing-study.jpg)](https://kchan1028.github.io/system-design-lab/#/studies/document-processing)
+
+*The Document Processing Platform study, captured from the published site on 2026-11-14.*
+
 ## Status
 
 Six design studies are published, each opening with an answer-first summary of its critical path. None has a backend; they are design exercises, and no measured production result is claimed.
