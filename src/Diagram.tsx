@@ -13,7 +13,7 @@ export function Diagram({ source }: { source: string }) {
   }, [source, id])
   return <figure aria-label="Architecture diagram">
     {result?.source === source && result.svg ? <div className="diagram" dangerouslySetInnerHTML={{ __html: result.svg }} /> : <p role="status">{result?.error ? 'Diagram unavailable. Read the source below.' : 'Rendering diagram…'}</p>}
-    <figcaption>Requirements feed architecture decisions; operational findings revise those requirements.</figcaption>
+    <figcaption>Repository-owned architecture diagram. Expand the source for nodes, boundaries, and connections.</figcaption>
     <details><summary>Diagram source (text alternative)</summary><pre>{source}</pre></details>
   </figure>
 }

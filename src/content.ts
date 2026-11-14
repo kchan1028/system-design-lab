@@ -1,4 +1,4 @@
-export const studies = [{ id: 'document-processing', title: 'Document Processing Platform', status: 'Planned', summary: 'Durable ingestion, asynchronous processing, and recoverable failures.' }]
+export const studies = [{ id: 'document-processing', title: 'Document Processing Platform', status: 'Design study', summary: 'Durable ingestion, asynchronous processing, and recoverable failures.' }]
 export const overview = `## Architecture is a set of decisions
 Start with the constraints. Explain the boundaries. Make the failure modes visible.
 
@@ -8,7 +8,7 @@ This lab collects original, hypothetical system designs. It separates assumption
 Each study follows the same path: requirements, architecture, contracts, data, security boundaries, failure handling, operations, and tradeoffs.
 
 ## What is available
-The documentation shell and diagram renderer are ready. The Document Processing Platform case study is planned for a separate pull request.
+Read the Document Processing Platform study for a concrete design of durable ingestion, isolated extraction, and recoverable publication.
 
 ## Evidence policy
 Examples use synthetic workloads. Capacity calculations are planning estimates, never benchmarks. Designs contain no employer or customer material.
