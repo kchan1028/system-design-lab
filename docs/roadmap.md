@@ -17,7 +17,8 @@ Native component buttons grouped by boundary; directional connection navigation;
 - Tradeoff analyzer: implemented in a separate review PR; explicit draft/apply assumptions, unknown values and qualitative comparisons. Review before extending the rule set.
 - Event-driven orders: independent study in a separate review PR; no backend implementation or measured results.
 - Multi-tenant SaaS: independent study in a separate review PR; authorization and isolation semantics need implementation validation.
-- Remaining independent studies: high-traffic API and RAG search.
+- High-traffic API: independent study in a separate review PR; cache age, quota and overload guarantees need provider/load validation.
+- Remaining independent study: RAG search.
 - Cross-study mobile/accessibility polish, validation, deployment verification and profile README integration.
 
 Main currently requires PRs but does not require CI status checks in its ruleset. Repository administration changes require a separate owner decision; do not bypass protection or widen collaborator permissions. No license has been selected.

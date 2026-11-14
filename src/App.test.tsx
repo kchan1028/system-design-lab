@@ -46,3 +46,15 @@ test.each([false, true])('late diagram restores deep link unless reader interact
     expect(scroll).toHaveBeenCalledTimes(interacted ? 1 : 2)
   } finally { HTMLElement.prototype.scrollIntoView = original }
 })
+
+test('API study has its own cache and overload content and deep links', () => {
+  location.hash = '#/studies/high-traffic-api'
+  render(<App />)
+  expect(screen.getByRole('heading',{level:1})).toHaveTextContent('High-Traffic API Platform')
+  expect(screen.getByRole('heading',{name:'Cache eligibility and freshness policy'})).toBeVisible()
+  expect(screen.getByRole('heading',{name:'Rate limiting and degraded operation'})).toBeVisible()
+  const contents = screen.getByRole('navigation',{name:'On this page'})
+  expect(within(contents).getByRole('link',{name:'Stampede protection and origin admission'})).toHaveAttribute('href','#/studies/high-traffic-api?section=stampede-protection-and-origin-admission')
+  expect(screen.queryByRole('heading',{name:'Authorization model'})).not.toBeInTheDocument()
+  expect(screen.queryByRole('heading',{name:'Architecture tradeoff analyzer'})).not.toBeInTheDocument()
+})
