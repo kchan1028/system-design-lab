@@ -208,8 +208,8 @@ test('prerendered study pages are crawlable and hand over to the app', async ({p
 for (const width of [320, 1440]) test(`voice study tables, diagram and accessibility at ${width}px`, async ({page}) => {
   await page.setViewportSize({width,height:900})
   await page.goto('/')
-  await page.getByRole('navigation',{name:'Case studies'}).getByRole('link',{name:/Global Open Source Voice Platform/}).click()
-  await expect(page.getByRole('heading',{level:1})).toHaveText('Global Open Source Voice Platform')
+  await page.getByRole('navigation',{name:'Case studies'}).getByRole('link',{name:/Open Source Voice Platform/}).click()
+  await expect(page.getByRole('heading',{level:1})).toHaveText('Open Source Voice Platform')
   await expect(page.locator('figure svg')).toBeVisible()
   await expect(page.getByRole('table')).toHaveCount(3)
   await page.getByRole('navigation',{name:'On this page'}).getByRole('link',{name:'Least cost routing with quality controls'}).click()
