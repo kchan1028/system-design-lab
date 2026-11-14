@@ -37,6 +37,10 @@ Case studies are independent exercises, not descriptions of deployed systems. Pr
 
 The site uses React, Vite, TypeScript, plain CSS, react-markdown, and Mermaid. Markdown is repository-owned; raw HTML is not enabled. Mermaid runs in strict mode. Never render external diagram input without a separate security review.
 
+## Interactive tradeoffs
+
+The Document Processing Platform analyzer compares synchronous requests, queue/outbox workers and durable workflows. Edit duration, arrival pattern, recovery and operating-capacity assumptions, then apply them to update qualitative reasoning. Unknown values remain unresolved. Evidence notes do not alter the rules. State is local to the mounted page and resets on reload; there is no storage, telemetry or external service. Comparisons are authored hypotheses, not rankings, benchmarks or vendor quotes.
+
 ## Failure-handling evidence
 
 Run `npm run simulate` to inspect deterministic duplicate-delivery, worker-crash, stale-lease, and deletion scenarios. [Model assumptions and limits](docs/simulation.md) explain what this demonstrates and what still needs real infrastructure tests. No throughput or production-correctness claim is made.
