@@ -18,7 +18,7 @@ Native component buttons grouped by boundary; directional connection navigation;
 - Event-driven orders: independent study in a separate review PR; no backend implementation or measured results.
 - Multi-tenant SaaS: independent study in a separate review PR; authorization and isolation semantics need implementation validation.
 - High-traffic API: independent study in a separate review PR; cache age, quota and overload guarantees need provider/load validation.
-- Remaining independent study: RAG search.
+- RAG document search: independent study in a separate review PR; authorization, index freshness and evaluation decisions need owner review. No retrieval backend, model calls or evaluation results.
 - Cross-study mobile/accessibility polish, validation, deployment verification and profile README integration.
 
-Main currently requires PRs but does not require CI status checks in its ruleset. Repository administration changes require a separate owner decision; do not bypass protection or widen collaborator permissions. No license has been selected.
+Main requires PRs through its ruleset, and branch protection currently requires the `check` CI status with strict up-to-date branches. Repository administration changes require a separate owner decision; do not bypass protection or widen collaborator permissions. No license has been selected.
