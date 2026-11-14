@@ -1,5 +1,6 @@
 import { renderToStaticMarkup } from 'react-dom/server'
 import Markdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { studies } from './content'
 import { glances } from './glance'
 import { StudyGlance } from './StudyGlance'
@@ -15,8 +16,9 @@ export function renderStudy(id: string) {
     <h1>{study.title}</h1>
     <p className="lead">{study.summary}</p>
     {glance && <StudyGlance glance={glance} />}
-    <Markdown components={{
+    <Markdown remarkPlugins={[remarkGfm]} components={{
       h1() { return null },
+      table({ children }) { return <div className="table-wrap"><table>{children}</table></div> },
       h2({ children }) { return <h2 id={headingId(String(children))}>{children}</h2> },
       pre({ children }) { return <div className="code-block">{children}</div> },
       code({ className, children }) {

@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { headingId, headings, readLocation, sectionLink } from './navigation'
 import Markdown from 'react-markdown'
+import type { ExtraProps } from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import { Diagram } from './Diagram'
 import { studies, overview, diagram, siteDescription } from './content'
 import './App.css'
@@ -8,6 +10,14 @@ import { TradeoffAnalyzer } from './TradeoffAnalyzer'
 import { ArchitectureExplorer } from './ArchitectureExplorer'
 import { StudyGlance } from './StudyGlance'
 import { glances } from './glance'
+type HastNode = { type: string; tagName?: string; value?: string; children?: HastNode[] }
+function textOf(node: HastNode): string { return node.type === 'text' ? node.value ?? '' : (node.children ?? []).map(textOf).join('') }
+function tableHeaders(node: ExtraProps['node']) {
+  const cells: string[] = []
+  const visit = (item: HastNode) => { if (item.tagName === 'th') cells.push(textOf(item).trim()); else item.children?.forEach(visit) }
+  if (node) visit(node as HastNode)
+  return cells.join(', ') || 'data'
+}
 export default function App() {
   const [{route, section}, setLocation] = useState(readLocation)
   useEffect(() => { const update = () => setLocation(readLocation()); addEventListener('hashchange', update); return () => removeEventListener('hashchange', update) }, [])
@@ -45,6 +55,6 @@ export default function App() {
     <div className="layout"><aside><p className="nav-label">FIELD NOTES IN ARCHITECTURE</p><nav aria-label="Case studies"><a aria-current={home ? 'page' : undefined} href="#/">Overview</a><p className="nav-label">CASE STUDIES</p>{studies.map(s => <a key={s.id} aria-current={study?.id === s.id ? 'page' : undefined} href={`#/studies/${s.id}`}>{s.title}<small>{s.status}</small></a>)}</nav><p className="sidebar-note">Requirements → decisions → consequences</p><a href="https://kalunchan.dev">KC Chan · Portfolio ↗</a></aside>
     <main id="main" tabIndex={-1}><p className="eyebrow">Engineering architecture & decision-making</p><h1>{home ? 'Designing for real constraints.' : study?.title || 'Page not found'}</h1><p className="lead">{home ? 'A working notebook of systems, their boundaries, and the choices that make them operable.' : study?.summary || 'Choose a case study from the navigation.'}</p>
     {(home || study) && <nav className="contents" aria-label="On this page"><p>On this page</p><ul>{contents.map(item => <li key={item.id}><a href={sectionLink(route,item.id)}>{item.title}</a></li>)}</ul></nav>}
-    {home ? <><div className="notice">Independent design exercises. Explicit assumptions. No claimed production benchmarks.</div><Markdown components={{h2({children}) { const id=headingId(String(children)); return <h2 id={id}><a className="section-link" href={sectionLink(route,id)}>{children}</a></h2> }}}>{overview}</Markdown><h2>The design loop</h2><Diagram source={diagram}/></> : study ? <>{glance && <StudyGlance glance={glance}/>}{documentTools && <><ArchitectureExplorer/><TradeoffAnalyzer/></>}<Markdown components={{ h2({children}) { const id=headingId(String(children)); return <h2 id={id}><a className="section-link" href={sectionLink(route,id)}>{children}</a></h2> }, code({ className, children, ...props }) { return className === 'language-mermaid' ? <Diagram source={String(children).trim()} onReady={diagramReady} /> : <code className={className} {...props}>{children}</code> }, pre({children}) { return <div className="code-block">{children}</div> }, h1() { return null } }}>{study.content}</Markdown></> : <a href="#/">Return to overview</a>}
+    {home ? <><div className="notice">Independent design exercises. Explicit assumptions. No claimed production benchmarks.</div><Markdown components={{h2({children}) { const id=headingId(String(children)); return <h2 id={id}><a className="section-link" href={sectionLink(route,id)}>{children}</a></h2> }}}>{overview}</Markdown><h2>The design loop</h2><Diagram source={diagram}/></> : study ? <>{glance && <StudyGlance glance={glance}/>}{documentTools && <><ArchitectureExplorer/><TradeoffAnalyzer/></>}<Markdown remarkPlugins={[remarkGfm]} components={{ table({children, node}) { return <div className="table-wrap" role="region" aria-label={`Table: ${tableHeaders(node)}`} tabIndex={0}><table>{children}</table></div> }, h2({children}) { const id=headingId(String(children)); return <h2 id={id}><a className="section-link" href={sectionLink(route,id)}>{children}</a></h2> }, code({ className, children, ...props }) { return className === 'language-mermaid' ? <Diagram source={String(children).trim()} onReady={diagramReady} /> : <code className={className} {...props}>{children}</code> }, pre({children}) { return <div className="code-block">{children}</div> }, h1() { return null } }}>{study.content}</Markdown></> : <a href="#/">Return to overview</a>}
     <footer>Original hypothetical designs · <a href="https://github.com/kchan1028/system-design-lab">Source and review history</a> · <a href="https://kalunchan.dev">KC Chan · Portfolio ↗</a></footer></main></div></>
 }
