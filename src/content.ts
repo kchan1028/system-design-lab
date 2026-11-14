@@ -14,11 +14,11 @@ Each study opens with Study at a glance: the design's answer in two sentences, t
 ## What is available
 Five independent design studies, each with requirements, a diagram, contracts, failure handling, operations, decision records and a validation plan:
 
-- [Document Processing Platform](#/studies/document-processing): durable ingestion, isolated extraction and recoverable publication.
-- [Event-Driven Order Processing](#/studies/event-driven-orders): inventory holds, uncertain payment outcomes, compensation and reconciliation.
-- [Multi-Tenant SaaS Platform](#/studies/multi-tenant-saas): tenant-scoped data, membership revocation, background exports and isolation failures.
-- [High-Traffic API Platform](#/studies/high-traffic-api): cache eligibility, bounded staleness, rate limits, admission control and observability.
-- [RAG Document Search](#/studies/rag-document-search): authorization before evidence reaches a model, versioned indexes, citation integrity and an evaluation plan.
+- [Document Processing Platform](studies/document-processing/): durable ingestion, isolated extraction and recoverable publication.
+- [Event-Driven Order Processing](studies/event-driven-orders/): inventory holds, uncertain payment outcomes, compensation and reconciliation.
+- [Multi-Tenant SaaS Platform](studies/multi-tenant-saas/): tenant-scoped data, membership revocation, background exports and isolation failures.
+- [High-Traffic API Platform](studies/high-traffic-api/): cache eligibility, bounded staleness, rate limits, admission control and observability.
+- [RAG Document Search](studies/rag-document-search/): authorization before evidence reaches a model, versioned indexes, citation integrity and an evaluation plan.
 
 ## Interactive tools
 Two tools are implemented, for the Document Processing Platform only. The architecture explorer lets you inspect each component's boundary, responsibilities, dependencies and failure recovery by keyboard or pointer. The tradeoff analyzer compares synchronous requests, queue workers and durable workflows against assumptions you edit and apply; it gives no score or winner. A deterministic command-line model of publication failures runs with npm run simulate. The other studies are readable designs without interactive data sets.

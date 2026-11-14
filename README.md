@@ -37,7 +37,7 @@ npx playwright install chromium
 npm run test:e2e
 ```
 
-`npm run preview` serves the built `dist/` directory. Relative asset paths and hash routes support static subdirectory hosting without route rewrites. GitHub Pages publishes the verified static build after a merge to main. The deployment job alone has Pages/OIDC write access; PR checks remain read-only.
+`npm run build` also prerenders a static, crawlable page for each study at `studies/<id>/` and writes `sitemap.xml`; those pages hand over to the interactive hash route when JavaScript loads. Run the build before `npm run test:e2e`, which checks the built pages. `npm run preview` serves the built `dist/` directory. Relative asset paths and hash routes support static subdirectory hosting without route rewrites. GitHub Pages publishes the verified static build after a merge to main. The deployment job alone has Pages/OIDC write access; PR checks remain read-only.
 
 ## Design and evidence
 
