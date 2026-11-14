@@ -159,6 +159,10 @@ Proposed: bounded polling and conditional reads for the first release. Webhooks 
 
 Proposed: reprocessing creates a new generation with recorded extractor and schema versions. Keep the previous ready generation visible until successful replacement, unless deleted/expired. Cost: temporary duplicate storage and explicit version semantics. Overwriting results is simpler but prevents reproducible debugging and makes retry races ambiguous.
 
+## Executable failure model
+
+This repository includes a deterministic single-job model of duplicate delivery, a crash before publication, stale lease publication, and deletion races. Run `npm run simulate` locally and read `docs/simulation.md` for its assumptions and limits. It exercises conditional publication semantics; it is not a real worker, database, queue, or benchmark.
+
 ## Validation plan and unresolved questions
 
 Before implementation commitments, benchmark synthetic and permission-cleared documents across byte/page/format/OCR distributions. Report hardware, software versions, concurrency, latency percentiles, rejection rates and sample sizes. Test duplicate completion, conflicting idempotency keys, tenant access attempts, stale lease publication, worker termination at each publication step, deletion races, parser resource exhaustion, queue outage and restored backups.
