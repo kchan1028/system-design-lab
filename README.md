@@ -4,7 +4,7 @@ Original, hypothetical architecture case studies that make requirements, decisio
 
 ## Status
 
-Milestone 1 supplies the responsive documentation shell, hash-based case-study navigation, and a lazy-loaded Mermaid renderer with readable source fallback. Document Processing Platform is a planned entry; its detailed design belongs in a separate milestone 2 PR. This repository does not implement a document-processing backend.
+Milestone 1 supplies the responsive documentation shell, hash-based case-study navigation, and a lazy-loaded Mermaid renderer with readable source fallback. Milestone 2 adds the [Document Processing Platform study](src/document-processing.md), covering contracts, isolation, publication semantics, operations, capacity arithmetic and five ADRs. This repository does not implement a document-processing backend.
 
 ## Run locally
 
