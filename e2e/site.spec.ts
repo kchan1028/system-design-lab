@@ -88,3 +88,18 @@ for (const width of [390, 1440]) test(`tenant study navigation, diagram and acce
   await expect(page.getByRole('heading',{name:'Architecture explorer'})).toBeVisible()
   await expect(page.getByRole('heading',{name:'Authorization model'})).toHaveCount(0)
 })
+
+for (const width of [390, 1440]) test(`API study diagram, freshness deep link and accessibility at ${width}px`, async ({page}) => {
+  await page.setViewportSize({width,height:900})
+  await page.goto('/')
+  await page.getByRole('navigation',{name:'Case studies'}).getByRole('link',{name:/High-Traffic API Platform/}).click()
+  await expect(page.getByRole('heading',{level:1})).toHaveText('High-Traffic API Platform')
+  await expect(page.locator('figure svg')).toBeVisible()
+  await page.getByRole('navigation',{name:'On this page'}).getByRole('link',{name:'Cache eligibility and freshness policy'}).click()
+  await page.reload()
+  await expect(page.locator('figure svg')).toBeVisible()
+  await expect(page.getByRole('heading',{name:'Cache eligibility and freshness policy'})).toBeInViewport()
+  expect((await new AxeBuilder({page}).analyze()).violations).toEqual([])
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+  await page.screenshot({path:`../../outputs/api-${width}.png`})
+})
