@@ -9,11 +9,11 @@ export type Glance = {
 export const glances: Record<string, Glance> = {
   'global-voice-platform': {
     answer: 'Run three independent voice regions that keep media close to callers, spread calls across capacity-tested Asterisk pools, and rank carriers by cost and quality from one Python policy. Each prepaid balance has one owner, so regions cannot spend the same credit.',
-    path: 'From SIP call to settled charge',
+    path: 'From SIP or WebRTC call to settled charge',
     steps: [
       { step: 'Choose a region', guard: 'Geography sets the first preference; measured latency, loss, capacity and carrier reach refine it.' },
       { step: 'Admit the call', guard: 'OpenSIPS identifies the customer and reseller and checks regional health and capacity first.' },
-      { step: 'Allocate media', guard: 'A healthy local MediaProxy relay is chosen, and established calls stay pinned to their media resources.' },
+      { step: 'Allocate media', guard: 'A healthy local relay is chosen: MediaProxy for SIP, rtpengine for WebRTC. Established calls stay pinned.' },
       { step: 'Pick an Asterisk server', guard: 'Calls are tracked against each server’s tested capacity, with separate pools for transcoding and recording.' },
       { step: 'Route to a carrier', guard: 'Versioned Python route tables: longest prefix match, ASR, PDD and ACD filters, then bounded failover before answer.' },
       { step: 'Authorize and settle', guard: 'Funds are reserved before connect; correlated events and unique transaction keys prevent duplicate charges.' },

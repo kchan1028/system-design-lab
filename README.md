@@ -6,7 +6,7 @@ Original, hypothetical architecture case studies that make requirements, decisio
 
 Six design studies are published, each opening with an answer-first summary of its critical path. None has a backend; they are design exercises, and no measured production result is claimed.
 
-- [Open Source Voice Platform](src/global-voice-platform.md): regional SIP and media routing with OpenSIPS and MediaProxy, Asterisk load balancing, quality-aware least cost routing, prepaid billing and a LAMP reseller system.
+- [Open Source Voice Platform](src/global-voice-platform.md): regional SIP and WebRTC calling with OpenSIPS, MediaProxy and rtpengine, Asterisk load balancing, quality-aware least cost routing, prepaid billing and a LAMP reseller system.
 - [Document Processing Platform](src/document-processing.md): durable ingestion, sandboxed extraction, fenced publication, capacity arithmetic and five ADRs.
 - [Event-Driven Order Processing](src/event-driven-orders.md): an orchestrated saga with outbox and inbox, stock holds, uncertain payments, compensation and reconciliation.
 - [Multi-Tenant SaaS Platform](src/multi-tenant-saas.md): layered tenant isolation, per-operation authorization, scoped exports and revocation-aware recovery.
