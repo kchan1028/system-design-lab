@@ -4,7 +4,7 @@ Original, hypothetical architecture case studies that make requirements, decisio
 
 ## Status
 
-Milestone 1 supplies the responsive documentation shell, hash-based case-study navigation, and a lazy-loaded Mermaid renderer with readable source fallback. The architecture explorer adds keyboard-operable component inspection, directional dependencies, trust boundaries and failure recovery without interpreting Mermaid output as interactive controls. Milestone 2 adds the [Document Processing Platform study](src/document-processing.md), covering contracts, isolation, publication semantics, operations, capacity arithmetic and five ADRs. This repository does not implement a document-processing backend.
+Milestone 1 supplies the responsive documentation shell, hash-based case-study navigation, and a lazy-loaded Mermaid renderer with readable source fallback. The architecture explorer adds keyboard-operable component inspection, directional dependencies, trust boundaries and failure recovery without interpreting Mermaid output as interactive controls. Milestone 2 adds the [Document Processing Platform study](src/document-processing.md), covering contracts, isolation, publication semantics, operations, capacity arithmetic and five ADRs. The [Event-Driven Order Processing study](src/event-driven-orders.md) adds an independent commerce saga design with outbox/inbox semantics, stock holds, payment uncertainty, compensation and reconciliation. This repository implements no document-processing or commerce backend.
 
 ## Browse the documentation
 

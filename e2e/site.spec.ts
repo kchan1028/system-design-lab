@@ -55,3 +55,18 @@ for (const width of [390, 1440]) test(`tradeoffs editable by keyboard and access
   await page.reload()
   await expect(page.getByLabel('Recovery requirement')).toHaveValue('restart')
 })
+
+for (const width of [390, 1440]) test(`order study content, deep links and accessibility at ${width}px`, async ({page}) => {
+  await page.setViewportSize({width,height:900})
+  await page.goto('/')
+  await page.getByRole('navigation',{name:'Case studies'}).getByRole('link',{name:/Event-Driven Order Processing/}).click()
+  await expect(page.getByRole('heading',{level:1})).toHaveText('Event-Driven Order Processing')
+  await expect(page.locator('figure svg')).toBeVisible()
+  await expect(page.getByRole('heading',{name:'Architecture tradeoff analyzer'})).toHaveCount(0)
+  await page.getByRole('navigation',{name:'On this page'}).getByRole('link',{name:'Saga and compensation protocol'}).click()
+  await page.reload()
+  await expect(page.getByRole('heading',{name:'Saga and compensation protocol'})).toBeInViewport()
+  expect((await new AxeBuilder({page}).analyze()).violations).toEqual([])
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+  await page.screenshot({path:`../../outputs/orders-${width}.png`})
+})
