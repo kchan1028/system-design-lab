@@ -14,7 +14,7 @@ Native component buttons grouped by boundary; directional connection navigation;
 
 ## Remaining milestones
 
-- Editable assumptions and qualitative architecture tradeoff comparisons, with no invented precision.
+- Tradeoff analyzer: implemented in a separate review PR; explicit draft/apply assumptions, unknown values and qualitative comparisons. Review before extending the rule set.
 - Independent event-driven orders, multi-tenant SaaS, high-traffic API and RAG search studies.
 - Cross-study mobile/accessibility polish, validation, deployment verification and profile README integration.
 
