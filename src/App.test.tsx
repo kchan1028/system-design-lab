@@ -58,3 +58,16 @@ test('API study has its own cache and overload content and deep links', () => {
   expect(screen.queryByRole('heading',{name:'Authorization model'})).not.toBeInTheDocument()
   expect(screen.queryByRole('heading',{name:'Architecture tradeoff analyzer'})).not.toBeInTheDocument()
 })
+
+test('RAG study has its own authorization and evaluation content and deep links', () => {
+  location.hash = '#/studies/rag-document-search'
+  render(<App />)
+  expect(screen.getByRole('heading',{level:1})).toHaveTextContent('RAG Document Search')
+  expect(screen.getByRole('heading',{name:'Authorization before generation'})).toBeVisible()
+  expect(screen.getByRole('heading',{name:'Evaluation plan'})).toBeVisible()
+  const contents = screen.getByRole('navigation',{name:'On this page'})
+  expect(within(contents).getByRole('link',{name:'Citation integrity and answer contract'})).toHaveAttribute('href','#/studies/rag-document-search?section=citation-integrity-and-answer-contract')
+  expect(within(contents).queryByRole('link',{name:'Architecture explorer'})).not.toBeInTheDocument()
+  expect(screen.queryByRole('heading',{name:'Architecture tradeoff analyzer'})).not.toBeInTheDocument()
+  expect(screen.queryByRole('heading',{name:'Cache eligibility and freshness policy'})).not.toBeInTheDocument()
+})
