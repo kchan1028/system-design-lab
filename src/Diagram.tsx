@@ -1,11 +1,19 @@
 import { useEffect, useId, useState } from 'react'
+let renderer: Promise<typeof import('mermaid')['default']> | undefined
+function loadRenderer() {
+  renderer ??= import('mermaid').then(({default: mermaid}) => {
+    mermaid.initialize({ startOnLoad: false, securityLevel: 'strict', theme: 'neutral', suppressErrorRendering: true })
+    return mermaid
+  })
+  return renderer
+}
 export function Diagram({ source, onReady }: { source: string; onReady?: () => void }) {
   const id = useId().replace(/[^a-zA-Z0-9]/g, '')
   const [result, setResult] = useState<{ source: string; svg?: string; error?: boolean }>()
   useEffect(() => {
     let active = true
-    import('mermaid').then(async ({ default: mermaid }) => {
-      mermaid.initialize({ startOnLoad: false, securityLevel: 'strict', theme: 'neutral', suppressErrorRendering: true })
+    loadRenderer().then(async mermaid => {
+      if (!active) return
       const { svg } = await mermaid.render(`diagram${id}`, source)
       if (active) setResult({ source, svg })
     }).catch(() => { if (active) setResult({ source, error: true }) })
