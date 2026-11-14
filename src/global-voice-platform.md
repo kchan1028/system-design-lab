@@ -12,6 +12,7 @@ The platform must:
 - Distribute calls across multiple Asterisk servers.
 - Select carriers using price and quality, including ASR, PDD and ACD.
 - Support prepaid balances, postpaid credit limits, reseller margins and invoicing.
+- Accept calls from WebRTC browsers and apps alongside SIP endpoints.
 - Keep accepting calls when a server or region becomes unavailable.
 
 Voice processing is separated from account management, so portal activity, billing reports and reseller administration never compete with live calls.
@@ -43,6 +44,7 @@ Each continent hosts an independently operating voice region spread across at le
 ```mermaid
 flowchart TB
     U[Customers and SIP endpoints] --> G[Regional discovery and health based routing]
+    W[WebRTC browsers and apps] --> G
 
     G --> NA[North America voice region]
     G --> EU[Europe voice region]
@@ -71,6 +73,9 @@ Every voice region contains:
 | MediaProxy dispatchers and relays | Media allocation, NAT traversal and RTP forwarding |
 | Asterisk pool | Call bridging, IVR, announcements, voicemail and required media services |
 | Python services | Credit authorization, rating, carrier ranking and quality aggregation |
+| OpenSIPS secure WebSocket listeners | SIP over WSS for WebRTC clients, with TLS certificates and origin checks |
+| rtpengine relays | WebRTC media: ICE, DTLS-SRTP to RTP bridging, rtcp-mux and codec transcoding when required |
+| TURN relays | Media relay for WebRTC clients behind restrictive NAT or firewalls |
 | Regional caches and event storage | Fast policy access and durable call event delivery |
 
 A MediaProxy dispatcher runs alongside each OpenSIPS instance and talks to it through a local socket. Relays connect to dispatchers over TLS and can serve several dispatchers, so redundant signaling nodes share one regional relay pool. [MediaProxy architecture](https://github.com/AGProjects/mediaproxy/blob/master/README)
@@ -94,6 +99,22 @@ A typical media path is caller ↔ nearby MediaProxy ↔ regional Asterisk ↔ c
 Closest means the best practical network path. A geographically nearby relay can still perform poorly because of Internet routing, so selection weighs latency, packet loss and jitter and avoids unnecessary intercontinental media paths.
 
 Moving new calls to another region does not recover media sessions lost with a failed relay.
+
+## WebRTC clients
+
+Browsers and apps join through the same regional OpenSIPS clusters, but their media goes through rtpengine instead of MediaProxy, so WebRTC security and NAT requirements stay out of the plain SIP path. Everything after media allocation, including Asterisk selection, carrier routing and billing, is shared with SIP calls.
+
+Signaling uses SIP over secure WebSocket. OpenSIPS `proto_wss` listeners terminate TLS with certificates managed through `tls_mgm`. [OpenSIPS secure WebSocket transport](https://github.com/opensips/opensips/blob/3.6.10/modules/proto_wss/README.md) Listeners check the WebSocket `Origin` header against an allowlist of the platform's own web applications, and apply the same rate limits and admission control as SIP. A browser receives short-lived SIP credentials after signing in to the portal; long-lived SIP passwords are never placed in web pages or browser storage.
+
+WebRTC requires encrypted media keyed through DTLS and ICE for connectivity. OpenSIPS passes WebRTC offers to rtpengine, which can generate its own ICE candidates, switch the profile between `RTP/SAVPF` toward the browser and plain RTP toward Asterisk, require rtcp-mux, and transcode a named codec. [OpenSIPS rtpengine module](https://github.com/opensips/opensips/blob/3.6.10/modules/rtpengine/README.md) Each region runs its own rtpengine pool with the same health checks, capacity limits and draining rules as MediaProxy relays.
+
+Clients behind restrictive NAT or firewalls need TURN. Each region runs TURN relays reachable over TLS on port 443 and issues time-limited TURN credentials with each session, so a leaked credential expires quickly. A TURN-relayed call adds a media leg: count it in the bandwidth model and in relay capacity.
+
+Codec choice drives cost. Browsers support both Opus and G.711, so offering G.711 toward carriers avoids transcoding on most PSTN calls. When a client insists on Opus and the carrier route does not support it, the call needs transcoding, which uses far more CPU per call than relaying and must run in a separately sized pool.
+
+Every registered browser holds an open TLS WebSocket connection, so connection count, keepalive traffic and reconnect storms after a listener restart need their own capacity tests. A dropped WebSocket forces re-registration on another listener, and a call whose signaling connection is lost generally ends.
+
+Decision for review: this design adds rtpengine for WebRTC legs and keeps MediaProxy for SIP. Running two relay systems costs more operations work; consolidating on rtpengine for all media would simplify operations but replaces the SIP media path the rest of this design was planned around. Revisit after measuring WebRTC traffic share and testing rtpengine with the platform's SIP call flows. Where transcoding runs, in rtpengine or in the Asterisk transcoding pool, is also unresolved.
 
 ## Asterisk load balancing
 
@@ -194,6 +215,7 @@ Before production acceptance, the platform must demonstrate:
 - Sustained peak attempts, retry bursts and registration storms.
 - New-call recovery after server, availability zone and regional failures.
 - Correct media selection, NAT traversal, early media and carrier interoperability.
+- WebRTC calls from current Chrome, Firefox and Safari releases, including TURN fallback, DTLS handshake failure, Opus to G.711 transcoding load and WebSocket reconnect storms.
 - Accurate billing under duplicate, delayed, missing and reordered events.
 - No concurrent prepaid overspending across regions.
 - Acceptable portal performance during reporting and provisioning peaks.
