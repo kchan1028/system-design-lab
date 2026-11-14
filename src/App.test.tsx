@@ -85,11 +85,31 @@ test('overview links every study and states which tools exist', () => {
 test('route changes update the document title and move focus to main', () => {
   location.hash = '#/'
   render(<App />)
-  expect(document.title).toBe('System Design Lab · KC Chan')
+  expect(document.title).toBe('System Design Lab: Architecture Case Studies by KC Chan')
   expect(screen.getByRole('main')).not.toHaveFocus()
   act(() => { location.hash='#/studies/rag-document-search'; dispatchEvent(new Event('hashchange')) })
   expect(document.title).toBe('RAG Document Search · System Design Lab')
   expect(screen.getByRole('main')).toHaveFocus()
   act(() => { location.hash='#/missing'; dispatchEvent(new Event('hashchange')) })
   expect(document.title).toBe('Page not found · System Design Lab')
+})
+
+test.each(['document-processing','event-driven-orders','multi-tenant-saas','high-traffic-api','rag-document-search'])('%s opens with its own answer-first glance', (id) => {
+  location.hash = `#/studies/${id}`
+  render(<App />)
+  const glance = screen.getByRole('region',{name:'Study at a glance'})
+  expect(within(glance).getAllByRole('listitem')).toHaveLength(6)
+  expect(within(glance).getByText('Not yet validated:')).toBeVisible()
+  const contents = screen.getByRole('navigation',{name:'On this page'})
+  expect(within(contents).getAllByRole('link')[0]).toHaveTextContent('Study at a glance')
+})
+
+test('glances stay study-specific', () => {
+  location.hash = '#/studies/rag-document-search'
+  render(<App />)
+  expect(screen.getByText(/Filter by permission inside retrieval/)).toBeVisible()
+  expect(screen.queryByText(/hard 90-second age limit/)).not.toBeInTheDocument()
+  act(() => { location.hash='#/studies/high-traffic-api'; dispatchEvent(new Event('hashchange')) })
+  expect(screen.getByText(/hard 90-second age limit/)).toBeVisible()
+  expect(screen.queryByText(/Filter by permission inside retrieval/)).not.toBeInTheDocument()
 })
