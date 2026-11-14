@@ -20,6 +20,7 @@ Native component buttons grouped by boundary; directional connection navigation;
 - High-traffic API: independent study in a separate review PR; cache age, quota and overload guarantees need provider/load validation.
 - RAG document search: independent study in a separate review PR; authorization, index freshness and evaluation decisions need owner review. No retrieval backend, model calls or evaluation results.
 - Cross-study polish: compact mobile study navigation, tablet layout, per-route titles, focus on route change, overview tool inventory and reduced-motion guard. Manual screen-reader review remains outstanding.
-- Remaining: performance review of the Mermaid bundle and profile README integration.
+- Mermaid bundle review: ELK kept for diagram readability after measurement; see [Diagram bundle decision](performance.md).
+- Profile README integration: proposed in a separate profile repository PR.
 
 Main requires PRs through its ruleset, and branch protection currently requires the `check` CI status with strict up-to-date branches. Repository administration changes require a separate owner decision; do not bypass protection or widen collaborator permissions. No license has been selected.

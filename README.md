@@ -35,7 +35,7 @@ npm run test:e2e
 
 Case studies are independent exercises, not descriptions of deployed systems. Proposed targets and workload assumptions must be labelled. Capacity arithmetic is not measured performance. Only reproducible measurements may be called benchmarks.
 
-The site uses React, Vite, TypeScript, plain CSS, react-markdown, and Mermaid. Markdown is repository-owned; raw HTML is not enabled. Mermaid runs in strict mode. Never render external diagram input without a separate security review.
+The site uses React, Vite, TypeScript, plain CSS, react-markdown, and Mermaid. Markdown is repository-owned; raw HTML is not enabled. Mermaid runs in strict mode. Never render external diagram input without a separate security review. Mermaid is loaded only when a diagram renders and keeps its default ELK layout for readability; the resulting large-chunk build warning is an accepted, [measured tradeoff](docs/performance.md).
 
 ## Interactive tradeoffs
 

@@ -2,6 +2,7 @@ import { useEffect, useId, useState } from 'react'
 let renderer: Promise<typeof import('mermaid')['default']> | undefined
 function loadRenderer() {
   renderer ??= import('mermaid').then(({default: mermaid}) => {
+    // Mermaid 12 defaults flowcharts to ELK; kept for readability. See docs/performance.md.
     mermaid.initialize({ startOnLoad: false, securityLevel: 'strict', theme: 'neutral', suppressErrorRendering: true })
     return mermaid
   })
