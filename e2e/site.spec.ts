@@ -16,3 +16,20 @@ test('section links survive reload and history navigation', async ({page}) => {
  await expect(page.getByRole('heading',{level:1})).toHaveText('Designing for real constraints.');
  await page.goBack(); await expect(page.getByRole('heading',{name:'Idempotency and publication protocol'})).toBeInViewport();
 })
+
+for (const width of [390, 1440]) test(`explorer keyboard, focus and accessibility at ${width}px`, async ({page}) => {
+  await page.setViewportSize({width,height:900})
+  await page.goto('/#/studies/document-processing?section=architecture-explorer')
+  const worker = page.getByRole('button',{name:'Extraction worker',exact:true})
+  await worker.focus()
+  await page.keyboard.press('Space')
+  await expect(worker).toHaveAttribute('aria-pressed','true')
+  const dependency = page.getByRole('button',{name:'Inspect PostgreSQL metadata and outbox'})
+  await dependency.focus()
+  await page.keyboard.press('Enter')
+  await expect(page.getByRole('button',{name:'PostgreSQL metadata and outbox',exact:true})).toBeFocused()
+  await expect(page.getByRole('region',{name:'PostgreSQL metadata and outbox'})).toContainText('No outgoing dependency is modeled')
+  expect((await new AxeBuilder({page}).analyze()).violations).toEqual([])
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+  await page.screenshot({path:`../../outputs/explorer-${width}.png`,fullPage:true})
+})
