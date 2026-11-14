@@ -8,7 +8,7 @@ Milestone 1 supplies the responsive documentation shell, hash-based case-study n
 
 ## Browse the documentation
 
-The planned GitHub Pages address is [System Design Lab](https://kchan1028.github.io/system-design-lab/). Publication is verified separately from this source change. Use the on-page contents to jump to a topic; section URLs can be shared and reloaded.
+The site is published with GitHub Pages at [kchan1028.github.io/system-design-lab](https://kchan1028.github.io/system-design-lab/). Each merge to main is deployed by the Publish documentation workflow after the same checks as CI. Use the on-page contents to jump to a topic; section URLs can be shared and reloaded.
 
 ## Run locally
 
@@ -29,7 +29,7 @@ npx playwright install chromium
 npm run test:e2e
 ```
 
-`npm run preview` serves the built `dist/` directory. Relative asset paths and hash routes support static subdirectory hosting without route rewrites. GitHub Pages publishes the verified static build after a merge to main. The deployment job alone has Pages/OIDC write access; PR checks remain read-only. The expected public URL is https://kchan1028.github.io/system-design-lab/.
+`npm run preview` serves the built `dist/` directory. Relative asset paths and hash routes support static subdirectory hosting without route rewrites. GitHub Pages publishes the verified static build after a merge to main. The deployment job alone has Pages/OIDC write access; PR checks remain read-only.
 
 ## Design and evidence
 
@@ -50,7 +50,7 @@ Run `npm run simulate` to inspect deterministic duplicate-delivery, worker-crash
 - `src/content.ts`: original documentation and study index
 - `src/App.tsx`: navigation and document layout
 - `src/Diagram.tsx`: lazy diagram rendering, cleanup, and fallback
-- `e2e/`: Chromium navigation, responsive layout, and automated accessibility checks
+- `e2e/`: Chromium navigation, responsive layout (320 to 1440px), focus, history and automated axe checks. Manual screen-reader testing has not been performed.
 - [Contributing](CONTRIBUTING.md), [Security](SECURITY.md), [Roadmap](docs/roadmap.md)
 
 ## License

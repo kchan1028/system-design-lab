@@ -13,7 +13,19 @@ This lab collects original, hypothetical system designs. It separates assumption
 Each study follows the same path: requirements, architecture, contracts, data, security boundaries, failure handling, operations, and tradeoffs.
 
 ## What is available
-Read the Document Processing Platform study for a concrete design of durable ingestion, isolated extraction, and recoverable publication. The Event-Driven Order Processing study explores inventory reservations, uncertain payment outcomes, compensation and reconciliation. The Multi-Tenant SaaS Platform study examines tenant-scoped data, membership revocation, background exports and isolation failures. The High-Traffic API Platform study covers cache eligibility, bounded staleness, rate limits, admission control and edge-to-origin observability. The RAG Document Search study covers authorization before evidence reaches a model, versioned index publication, citation integrity, prompt-injection limits and an evaluation plan with explicit denominators.
+Five independent design studies, each with requirements, a diagram, contracts, failure handling, operations, decision records and a validation plan:
+
+- [Document Processing Platform](#/studies/document-processing): durable ingestion, isolated extraction and recoverable publication.
+- [Event-Driven Order Processing](#/studies/event-driven-orders): inventory holds, uncertain payment outcomes, compensation and reconciliation.
+- [Multi-Tenant SaaS Platform](#/studies/multi-tenant-saas): tenant-scoped data, membership revocation, background exports and isolation failures.
+- [High-Traffic API Platform](#/studies/high-traffic-api): cache eligibility, bounded staleness, rate limits, admission control and observability.
+- [RAG Document Search](#/studies/rag-document-search): authorization before evidence reaches a model, versioned indexes, citation integrity and an evaluation plan.
+
+## Interactive tools
+Two tools are implemented, for the Document Processing Platform only. The architecture explorer lets you inspect each component's boundary, responsibilities, dependencies and failure recovery by keyboard or pointer. The tradeoff analyzer compares synchronous requests, queue workers and durable workflows against assumptions you edit and apply; it gives no score or winner. A deterministic command-line model of publication failures runs with npm run simulate. The other studies are readable designs without interactive data sets.
+
+## What remains hypothetical
+No study has a backend, deployment or load test in this repository. Targets are proposals, capacity figures are arithmetic and frontend tests cover only this site's rendering, navigation and accessibility. They do not validate isolation, payment, cache, quota or retrieval guarantees.
 
 ## Evidence policy
 Examples use synthetic workloads. Capacity calculations are planning estimates, never benchmarks. Designs contain no employer or customer material.

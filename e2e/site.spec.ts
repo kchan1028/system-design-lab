@@ -4,7 +4,7 @@ for (const width of [390, 1440]) test(`navigation, diagram and accessibility at 
  await page.setViewportSize({width,height:900}); await page.goto('/'); await page.keyboard.press('Tab'); await expect(page.getByRole('link',{name:'Skip to content'})).toBeFocused(); await page.keyboard.press('Enter'); await expect(page.locator('main')).toBeFocused(); await expect(page.locator('figure svg')).toBeVisible();
  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
  expect((await new AxeBuilder({page}).analyze()).violations).toEqual([]);
- await page.getByRole('link',{name:/Document Processing Platform/}).click(); await expect(page.getByRole('heading',{level:1})).toHaveText('Document Processing Platform'); await page.reload(); await expect(page.getByRole('heading',{name:'Idempotency and publication protocol'})).toBeVisible(); await expect(page.locator('figure svg')).toBeVisible(); expect((await new AxeBuilder({page}).analyze()).violations).toEqual([]); expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true); await page.screenshot({path:`../../outputs/case-study-${width}.png`});
+ await page.getByRole('navigation',{name:'Case studies'}).getByRole('link',{name:/Document Processing Platform/}).click(); await expect(page.getByRole('heading',{level:1})).toHaveText('Document Processing Platform'); await page.reload(); await expect(page.getByRole('heading',{name:'Idempotency and publication protocol'})).toBeVisible(); await expect(page.locator('figure svg')).toBeVisible(); expect((await new AxeBuilder({page}).analyze()).violations).toEqual([]); expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true); await page.screenshot({path:`../../outputs/case-study-${width}.png`});
 })
 
 test('section links survive reload and history navigation', async ({page}) => {
@@ -121,4 +121,38 @@ for (const width of [390, 1440]) test(`RAG study diagram, authorization deep lin
   await page.screenshot({path:`../../outputs/rag-${width}.png`})
   await page.goBack()
   await expect(page.getByRole('heading',{level:1})).toHaveText('RAG Document Search')
+})
+
+for (const [width, height] of [[320, 640], [390, 800], [768, 1024]]) test(`study navigation stays compact and readable at ${width}px`, async ({page}) => {
+  await page.setViewportSize({width,height})
+  await page.goto('/#/studies/rag-document-search')
+  const links = page.getByRole('navigation',{name:'Case studies'}).getByRole('link')
+  await expect(links).toHaveCount(6)
+  for (const box of await links.evaluateAll(items => items.map(item => { const r = item.getBoundingClientRect(); return {h:r.height, w:r.width, fits:item.scrollWidth <= item.clientWidth + 1} }))) {
+    expect(box.h).toBeGreaterThanOrEqual(44)
+    expect(box.w).toBeGreaterThanOrEqual(120)
+    expect(box.fits).toBe(true)
+  }
+  const heading = await page.getByRole('heading',{level:1}).boundingBox()
+  if (width < 761) expect(heading!.y + heading!.height).toBeLessThan(height)
+  const main = await page.locator('main p.lead').boundingBox()
+  expect(main!.width).toBeGreaterThanOrEqual(width < 761 ? width - 60 : 400)
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+  expect((await new AxeBuilder({page}).analyze()).violations).toEqual([])
+  await page.screenshot({path:`../../outputs/nav-${width}.png`})
+})
+
+test('keyboard route change focuses main, updates title and survives history', async ({page}) => {
+  await page.setViewportSize({width:1440,height:900})
+  await page.goto('/')
+  const link = page.getByRole('navigation',{name:'Case studies'}).getByRole('link',{name:/High-Traffic API Platform/})
+  await link.focus()
+  await page.keyboard.press('Enter')
+  await expect(page.locator('main')).toBeFocused()
+  await expect(page).toHaveTitle('High-Traffic API Platform · System Design Lab')
+  await page.goBack()
+  await expect(page).toHaveTitle('System Design Lab · KC Chan')
+  await page.goForward()
+  await expect(page.getByRole('heading',{level:1})).toHaveText('High-Traffic API Platform')
+  expect(await page.evaluate(() => scrollY)).toBe(0)
 })
