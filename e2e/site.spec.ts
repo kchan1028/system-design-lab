@@ -156,3 +156,15 @@ test('keyboard route change focuses main, updates title and survives history', a
   await expect(page.getByRole('heading',{level:1})).toHaveText('High-Traffic API Platform')
   expect(await page.evaluate(() => scrollY)).toBe(0)
 })
+
+test('Mermaid loads only when a diagram renders', async ({page}) => {
+  const scripts: string[] = []
+  page.on('request', request => { if (request.resourceType() === 'script') scripts.push(request.url()) })
+  await page.goto('/#/missing')
+  await expect(page.getByRole('heading',{level:1})).toHaveText('Page not found')
+  await page.waitForLoadState('networkidle')
+  expect(scripts.filter(url => /mermaid|elk/i.test(url))).toEqual([])
+  await page.getByRole('link',{name:'Return to overview'}).click()
+  await expect(page.locator('figure svg')).toBeVisible()
+  expect(scripts.some(url => /mermaid|elk/i.test(url))).toBe(true)
+})
