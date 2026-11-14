@@ -127,7 +127,7 @@ for (const [width, height] of [[320, 640], [390, 800], [768, 1024]]) test(`study
   await page.setViewportSize({width,height})
   await page.goto('/#/studies/rag-document-search')
   const links = page.getByRole('navigation',{name:'Case studies'}).getByRole('link')
-  await expect(links).toHaveCount(6)
+  await expect(links).toHaveCount(7)
   for (const box of await links.evaluateAll(items => items.map(item => { const r = item.getBoundingClientRect(); return {h:r.height, w:r.width, fits:item.scrollWidth <= item.clientWidth + 1} }))) {
     expect(box.h).toBeGreaterThanOrEqual(44)
     expect(box.w).toBeGreaterThanOrEqual(120)
@@ -180,7 +180,7 @@ for (const width of [320, 1440]) test(`study glance is readable and accessible a
   expect((await new AxeBuilder({page}).analyze()).violations).toEqual([])
   await glance.screenshot({path:`../../outputs/glance-${width}.png`})
   await page.getByRole('navigation',{name:'Case studies'}).getByRole('link',{name:'Overview',exact:true}).click()
-  await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /Original system design case studies/)
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /original system design case studies/)
 })
 
 test('prerendered study pages are crawlable and hand over to the app', async ({page, request}) => {
@@ -194,7 +194,7 @@ test('prerendered study pages are crawlable and hand over to the app', async ({p
   expect(html).toContain('Filter by permission inside retrieval')
   expect(html).not.toContain('"./assets/')
   const sitemap = await (await request.get(`${base}sitemap.xml`)).text()
-  for (const id of ['document-processing','event-driven-orders','multi-tenant-saas','high-traffic-api','rag-document-search']) expect(sitemap).toContain(`https://kchan1028.github.io/system-design-lab/studies/${id}/`)
+  for (const id of ['global-voice-platform','document-processing','event-driven-orders','multi-tenant-saas','high-traffic-api','rag-document-search']) expect(sitemap).toContain(`https://kchan1028.github.io/system-design-lab/studies/${id}/`)
   await page.goto(`${base}studies/high-traffic-api/`)
   await expect(page).toHaveURL(`${base}#/studies/high-traffic-api`)
   await expect(page.getByRole('heading',{level:1})).toHaveText('High-Traffic API Platform')
@@ -203,4 +203,19 @@ test('prerendered study pages are crawlable and hand over to the app', async ({p
   await page.getByRole('main').getByRole('link',{name:'RAG Document Search'}).click()
   await expect(page).toHaveURL(`${base}#/studies/rag-document-search`)
   await expect(page.getByRole('region',{name:'Study at a glance'})).toBeVisible()
+})
+
+for (const width of [320, 1440]) test(`voice study tables, diagram and accessibility at ${width}px`, async ({page}) => {
+  await page.setViewportSize({width,height:900})
+  await page.goto('/')
+  await page.getByRole('navigation',{name:'Case studies'}).getByRole('link',{name:/Global Open Source Voice Platform/}).click()
+  await expect(page.getByRole('heading',{level:1})).toHaveText('Global Open Source Voice Platform')
+  await expect(page.locator('figure svg')).toBeVisible()
+  await expect(page.getByRole('table')).toHaveCount(3)
+  await page.getByRole('navigation',{name:'On this page'}).getByRole('link',{name:'Least cost routing with quality controls'}).click()
+  await page.reload()
+  await expect(page.getByRole('heading',{name:'Least cost routing with quality controls'})).toBeInViewport()
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+  expect((await new AxeBuilder({page}).analyze()).violations).toEqual([])
+  await page.getByRole('table').nth(2).screenshot({path:`../../outputs/voice-table-${width}.png`})
 })

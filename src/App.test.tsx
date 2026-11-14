@@ -76,7 +76,7 @@ test('overview links every study and states which tools exist', () => {
   location.hash = '#/'
   render(<App />)
   const main = screen.getByRole('main')
-  for (const name of ['Document Processing Platform','Event-Driven Order Processing','Multi-Tenant SaaS Platform','High-Traffic API Platform','RAG Document Search']) expect(within(main).getByRole('link',{name})).toHaveAttribute('href', expect.stringMatching(/^studies\/[a-z-]+\/$/))
+  for (const name of ['Global Open Source Voice Platform','Document Processing Platform','Event-Driven Order Processing','Multi-Tenant SaaS Platform','High-Traffic API Platform','RAG Document Search']) expect(within(main).getByRole('link',{name})).toHaveAttribute('href', expect.stringMatching(/^studies\/[a-z-]+\/$/))
   expect(screen.getByRole('heading',{name:'Interactive tools'})).toBeVisible()
   expect(screen.getByText(/for the Document Processing Platform only/)).toBeVisible()
   expect(screen.getByRole('heading',{name:'What remains hypothetical'})).toBeVisible()
@@ -94,7 +94,7 @@ test('route changes update the document title and move focus to main', () => {
   expect(document.title).toBe('Page not found · System Design Lab')
 })
 
-test.each(['document-processing','event-driven-orders','multi-tenant-saas','high-traffic-api','rag-document-search'])('%s opens with its own answer-first glance', (id) => {
+test.each(['global-voice-platform','document-processing','event-driven-orders','multi-tenant-saas','high-traffic-api','rag-document-search'])('%s opens with its own answer-first glance', (id) => {
   location.hash = `#/studies/${id}`
   render(<App />)
   const glance = screen.getByRole('region',{name:'Study at a glance'})
@@ -112,4 +112,17 @@ test('glances stay study-specific', () => {
   act(() => { location.hash='#/studies/high-traffic-api'; dispatchEvent(new Event('hashchange')) })
   expect(screen.getByText(/hard 90-second age limit/)).toBeVisible()
   expect(screen.queryByText(/Filter by permission inside retrieval/)).not.toBeInTheDocument()
+})
+
+test('voice study is listed first and renders its tables', () => {
+  location.hash = '#/studies/global-voice-platform'
+  render(<App />)
+  const studyLinks = within(screen.getByRole('navigation',{name:'Case studies'})).getAllByRole('link')
+  expect(studyLinks[1]).toHaveTextContent('Global Open Source Voice Platform')
+  expect(studyLinks[2]).toHaveTextContent('Document Processing Platform')
+  expect(screen.getByRole('heading',{level:1})).toHaveTextContent('Global Open Source Voice Platform')
+  expect(screen.getAllByRole('table')).toHaveLength(3)
+  expect(screen.getByRole('cell',{name:'50,000,000 ÷ 43,200 ≈ 1,157'})).toBeVisible()
+  expect(screen.getByRole('link',{name:'OpenSIPS load balancing'})).toHaveAttribute('href','https://docs.opensips.org/manual/3-6/modules/load_balancer/')
+  expect(screen.queryByRole('heading',{name:'Architecture explorer'})).not.toBeInTheDocument()
 })
