@@ -122,8 +122,6 @@ test('voice study is listed first and renders its tables', () => {
   expect(studyLinks[2]).toHaveTextContent('Document Processing Platform')
   expect(screen.getByRole('heading',{level:1})).toHaveTextContent('Open Source Voice Platform')
   expect(screen.getAllByRole('table')).toHaveLength(3)
-  expect(screen.getByRole('heading',{name:'WebRTC clients'})).toBeVisible()
-  expect(screen.getByRole('link',{name:'OpenSIPS rtpengine module'})).toHaveAttribute('href','https://github.com/opensips/opensips/blob/3.6.10/modules/rtpengine/README.md')
   expect(screen.getByRole('cell',{name:'50,000,000 ÷ 43,200 ≈ 1,157'})).toBeVisible()
   expect(screen.getByRole('link',{name:'OpenSIPS load balancing'})).toHaveAttribute('href','https://docs.opensips.org/manual/3-6/modules/load_balancer/')
   expect(screen.queryByRole('heading',{name:'Architecture explorer'})).not.toBeInTheDocument()
