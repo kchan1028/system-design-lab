@@ -22,5 +22,6 @@ Native component buttons grouped by boundary; directional connection navigation;
 - Cross-study polish: compact mobile study navigation, tablet layout, per-route titles, focus on route change, overview tool inventory and reduced-motion guard. Manual screen-reader review remains outstanding.
 - Mermaid bundle review: ELK kept for diagram readability after measurement; see [Diagram bundle decision](performance.md).
 - Profile README integration: proposed in a separate profile repository PR.
+- Search discovery: answer-first study summaries, metadata and prerendered static study pages with a sitemap.
 
 Main requires PRs through its ruleset, and branch protection currently requires the `check` CI status with strict up-to-date branches. Repository administration changes require a separate owner decision; do not bypass protection or widen collaborator permissions. No license has been selected.

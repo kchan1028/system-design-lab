@@ -76,7 +76,7 @@ test('overview links every study and states which tools exist', () => {
   location.hash = '#/'
   render(<App />)
   const main = screen.getByRole('main')
-  for (const name of ['Document Processing Platform','Event-Driven Order Processing','Multi-Tenant SaaS Platform','High-Traffic API Platform','RAG Document Search']) expect(within(main).getByRole('link',{name})).toHaveAttribute('href', expect.stringMatching(/^#\/studies\//))
+  for (const name of ['Document Processing Platform','Event-Driven Order Processing','Multi-Tenant SaaS Platform','High-Traffic API Platform','RAG Document Search']) expect(within(main).getByRole('link',{name})).toHaveAttribute('href', expect.stringMatching(/^studies\/[a-z-]+\/$/))
   expect(screen.getByRole('heading',{name:'Interactive tools'})).toBeVisible()
   expect(screen.getByText(/for the Document Processing Platform only/)).toBeVisible()
   expect(screen.getByRole('heading',{name:'What remains hypothetical'})).toBeVisible()
