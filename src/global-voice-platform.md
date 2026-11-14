@@ -1,13 +1,13 @@
 # Global Open Source Voice Platform
 
-A proposed cloud-hosted telecommunications platform for 50 million connected minutes per month and 400,000 customer accounts across North America, Europe and Asia. It combines OpenSIPS for SIP routing, MediaProxy for regional media handling, Asterisk for telephony services, Python for billing and least cost routing, and a LAMP reseller application. Capacity figures are planning estimates. Production capacity and service targets must come from load tests with the intended codecs, call flows and cloud infrastructure.
+A proposed cloud-hosted telecommunications platform for 50 million connected minutes per month and a large multitenant reseller customer base across North America, Europe and Asia. It combines OpenSIPS for SIP routing, MediaProxy for regional media handling, Asterisk for telephony services, Python for billing and least cost routing, and a LAMP reseller application. Capacity figures are planning estimates. Production capacity and service targets must come from load tests with the intended codecs, call flows and cloud infrastructure.
 
 ## Business requirements
 
 The platform must:
 
 - Carry 50 million connected voice minutes per month.
-- Support 400,000 customer accounts through a multitenant reseller system.
+- Support a large customer base through a multitenant reseller system.
 - Route callers to a nearby healthy media relay.
 - Distribute calls across multiple Asterisk servers.
 - Select carriers using price and quality, including ASR, PDD and ACD.
@@ -34,7 +34,7 @@ Peak concurrency, call attempts, codec choice, recording and transcoding set ser
 
 The 6,000-call target counts connected calls only. Server and trunk sizing must also cover ringing calls, early media, abandoned attempts and retry bursts.
 
-The 400,000 accounts are provisioned users, not simultaneous callers. If every account re-registered every five minutes, the platform would receive about 1,333 registration refreshes per second before authentication exchanges and reconnect storms. Registration needs its own capacity test.
+Provisioned accounts are not simultaneous callers, but registered endpoints still generate steady signaling load. Refreshes per second equal registered endpoints divided by the refresh interval in seconds: every 100,000 endpoints refreshing every five minutes add about 333 refreshes per second, before authentication exchanges and reconnect storms. Registration needs its own capacity test.
 
 ## Architecture across three continents
 
@@ -163,7 +163,7 @@ Money uses fixed-precision arithmetic. Rates include connection fees, minimum du
 
 Asterisk can produce several CDRs for one customer interaction, especially with transfers and complex bridging. Billing correlates records and channel events by a platform session identifier instead of charging each CDR separately. [Asterisk CDR specification](https://docs.asterisk.org/Configuration/Reporting/Call-Detail-Records-CDR/CDR-Specification/) Durable events, replayable processing, unique financial transaction keys and reconciliation guard against duplicate charges and missing events.
 
-## LAMP reseller system for 400,000 users
+## LAMP reseller system
 
 The reseller application runs on Linux, Apache, MySQL and PHP, with stateless application servers behind a web load balancer and database capacity sized from measured transactions and query patterns. It covers:
 
