@@ -1,5 +1,46 @@
 # System Design Lab
 
-Original hypothetical system-design case studies. Foundation changes will be proposed through a pull request.
+Original, hypothetical architecture case studies that make requirements, decisions, failure modes, security boundaries, and operational costs reviewable. No employer or customer material is used.
 
-No project license has been selected.
+## Status
+
+Milestone 1 supplies the responsive documentation shell, hash-based case-study navigation, and a lazy-loaded Mermaid renderer with readable source fallback. Document Processing Platform is a planned entry; its detailed design belongs in a separate milestone 2 PR. This repository does not implement a document-processing backend.
+
+## Run locally
+
+Use Node.js 24 and npm. No environment variables, account, or credentials are needed.
+
+```sh
+npm ci
+npm run dev
+```
+
+Open the address printed by Vite. To validate:
+
+```sh
+npm test
+npm run lint
+npm run build
+npx playwright install chromium
+npm run test:e2e
+```
+
+`npm run preview` serves the built `dist/` directory. Relative asset paths and hash routes support static subdirectory hosting without route rewrites. Hosting is not configured automatically.
+
+## Design and evidence
+
+Case studies are independent exercises, not descriptions of deployed systems. Proposed targets and workload assumptions must be labelled. Capacity arithmetic is not measured performance. Only reproducible measurements may be called benchmarks.
+
+The site uses React, Vite, TypeScript, plain CSS, react-markdown, and Mermaid. Markdown is repository-owned; raw HTML is not enabled. Mermaid runs in strict mode. Never render external diagram input without a separate security review.
+
+## Repository guide
+
+- `src/content.ts`: original documentation and study index
+- `src/App.tsx`: navigation and document layout
+- `src/Diagram.tsx`: lazy diagram rendering, cleanup, and fallback
+- `e2e/`: Chromium navigation, responsive layout, and automated accessibility checks
+- [Contributing](CONTRIBUTING.md), [Security](SECURITY.md), [Roadmap](docs/roadmap.md)
+
+## License
+
+No project license has been selected. Public availability does not grant a general license to reuse this project. Dependency licenses remain their own.
