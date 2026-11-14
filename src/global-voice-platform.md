@@ -1,4 +1,4 @@
-# Global Open Source Voice Platform
+# Open Source Voice Platform
 
 A proposed cloud-hosted telecommunications platform for 50 million connected minutes per month and a large multitenant reseller customer base across North America, Europe and Asia. It combines OpenSIPS for SIP routing, MediaProxy for regional media handling, Asterisk for telephony services, Python for billing and least cost routing, and a LAMP reseller application. Capacity figures are planning estimates. Production capacity and service targets must come from load tests with the intended codecs, call flows and cloud infrastructure.
 

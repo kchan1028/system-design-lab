@@ -76,7 +76,7 @@ test('overview links every study and states which tools exist', () => {
   location.hash = '#/'
   render(<App />)
   const main = screen.getByRole('main')
-  for (const name of ['Global Open Source Voice Platform','Document Processing Platform','Event-Driven Order Processing','Multi-Tenant SaaS Platform','High-Traffic API Platform','RAG Document Search']) expect(within(main).getByRole('link',{name})).toHaveAttribute('href', expect.stringMatching(/^studies\/[a-z-]+\/$/))
+  for (const name of ['Open Source Voice Platform','Document Processing Platform','Event-Driven Order Processing','Multi-Tenant SaaS Platform','High-Traffic API Platform','RAG Document Search']) expect(within(main).getByRole('link',{name})).toHaveAttribute('href', expect.stringMatching(/^studies\/[a-z-]+\/$/))
   expect(screen.getByRole('heading',{name:'Interactive tools'})).toBeVisible()
   expect(screen.getByText(/for the Document Processing Platform only/)).toBeVisible()
   expect(screen.getByRole('heading',{name:'What remains hypothetical'})).toBeVisible()
@@ -118,9 +118,9 @@ test('voice study is listed first and renders its tables', () => {
   location.hash = '#/studies/global-voice-platform'
   render(<App />)
   const studyLinks = within(screen.getByRole('navigation',{name:'Case studies'})).getAllByRole('link')
-  expect(studyLinks[1]).toHaveTextContent('Global Open Source Voice Platform')
+  expect(studyLinks[1]).toHaveTextContent('Open Source Voice Platform')
   expect(studyLinks[2]).toHaveTextContent('Document Processing Platform')
-  expect(screen.getByRole('heading',{level:1})).toHaveTextContent('Global Open Source Voice Platform')
+  expect(screen.getByRole('heading',{level:1})).toHaveTextContent('Open Source Voice Platform')
   expect(screen.getAllByRole('table')).toHaveLength(3)
   expect(screen.getByRole('cell',{name:'50,000,000 ÷ 43,200 ≈ 1,157'})).toBeVisible()
   expect(screen.getByRole('link',{name:'OpenSIPS load balancing'})).toHaveAttribute('href','https://docs.opensips.org/manual/3-6/modules/load_balancer/')
