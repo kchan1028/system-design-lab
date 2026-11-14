@@ -21,6 +21,14 @@ export default function App() {
     events.forEach(event => addEventListener(event, cancel, {passive:true}))
     return () => events.forEach(event => removeEventListener(event, cancel))
   }, [route, section])
+  const previousRoute = useRef(route)
+  useEffect(() => {
+    document.title = home ? 'System Design Lab · KC Chan' : `${study?.title ?? 'Page not found'} · System Design Lab`
+    if (previousRoute.current === route) return
+    previousRoute.current = route
+    if (!section) { document.documentElement.scrollTop = 0; document.body.scrollTop = 0 }
+    document.getElementById('main')?.focus({preventScroll: true})
+  }, [route, section, home, study])
   function diagramReady() {
     if (pendingSection.current) document.getElementById(pendingSection.current)?.scrollIntoView()
     pendingSection.current = null
@@ -33,5 +41,5 @@ export default function App() {
     <main id="main" tabIndex={-1}><p className="eyebrow">Engineering architecture & decision-making</p><h1>{home ? 'Designing for real constraints.' : study?.title || 'Page not found'}</h1><p className="lead">{home ? 'A working notebook of systems, their boundaries, and the choices that make them operable.' : study?.summary || 'Choose a case study from the navigation.'}</p>
     {(home || study) && <nav className="contents" aria-label="On this page"><p>On this page</p><ul>{contents.map(item => <li key={item.id}><a href={sectionLink(route,item.id)}>{item.title}</a></li>)}</ul></nav>}
     {home ? <><div className="notice">Independent design exercises. Explicit assumptions. No claimed production benchmarks.</div><Markdown components={{h2({children}) { const id=headingId(String(children)); return <h2 id={id}><a className="section-link" href={sectionLink(route,id)}>{children}</a></h2> }}}>{overview}</Markdown><h2>The design loop</h2><Diagram source={diagram}/></> : study ? <>{documentTools && <><ArchitectureExplorer/><TradeoffAnalyzer/></>}<Markdown components={{ h2({children}) { const id=headingId(String(children)); return <h2 id={id}><a className="section-link" href={sectionLink(route,id)}>{children}</a></h2> }, code({ className, children, ...props }) { return className === 'language-mermaid' ? <Diagram source={String(children).trim()} onReady={diagramReady} /> : <code className={className} {...props}>{children}</code> }, pre({children}) { return <div className="code-block">{children}</div> }, h1() { return null } }}>{study.content}</Markdown></> : <a href="#/">Return to overview</a>}
-    <footer>Original hypothetical designs · <a href="https://github.com/kchan1028/system-design-lab">Source and review history</a></footer></main></div></>
+    <footer>Original hypothetical designs · <a href="https://github.com/kchan1028/system-design-lab">Source and review history</a> · <a href="https://kalunchan.dev">KC Chan · Portfolio ↗</a></footer></main></div></>
 }

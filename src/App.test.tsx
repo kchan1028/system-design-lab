@@ -71,3 +71,25 @@ test('RAG study has its own authorization and evaluation content and deep links'
   expect(screen.queryByRole('heading',{name:'Architecture tradeoff analyzer'})).not.toBeInTheDocument()
   expect(screen.queryByRole('heading',{name:'Cache eligibility and freshness policy'})).not.toBeInTheDocument()
 })
+
+test('overview links every study and states which tools exist', () => {
+  location.hash = '#/'
+  render(<App />)
+  const main = screen.getByRole('main')
+  for (const name of ['Document Processing Platform','Event-Driven Order Processing','Multi-Tenant SaaS Platform','High-Traffic API Platform','RAG Document Search']) expect(within(main).getByRole('link',{name})).toHaveAttribute('href', expect.stringMatching(/^#\/studies\//))
+  expect(screen.getByRole('heading',{name:'Interactive tools'})).toBeVisible()
+  expect(screen.getByText(/for the Document Processing Platform only/)).toBeVisible()
+  expect(screen.getByRole('heading',{name:'What remains hypothetical'})).toBeVisible()
+})
+
+test('route changes update the document title and move focus to main', () => {
+  location.hash = '#/'
+  render(<App />)
+  expect(document.title).toBe('System Design Lab · KC Chan')
+  expect(screen.getByRole('main')).not.toHaveFocus()
+  act(() => { location.hash='#/studies/rag-document-search'; dispatchEvent(new Event('hashchange')) })
+  expect(document.title).toBe('RAG Document Search · System Design Lab')
+  expect(screen.getByRole('main')).toHaveFocus()
+  act(() => { location.hash='#/missing'; dispatchEvent(new Event('hashchange')) })
+  expect(document.title).toBe('Page not found · System Design Lab')
+})
